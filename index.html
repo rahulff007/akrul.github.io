@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKRUL - Premium Fashion Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Customer Website -->
+    <div id="customerSite">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h1 class="premium-logo">AKRUL</h1>
+                    <span class="logo-tagline">Premium Fashion</span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#" onclick="showPage('home')">Home</a></li>
+                    <li><a href="#" onclick="showPage('shop')">Shop</a></li>
+                    <li><a href="#" onclick="showPage('collections')">Collections</a></li>
+                    <li><a href="#" onclick="showPage('orders')" id="ordersNavLink" style="display: none;">Your Orders</a></li>
+                    <li><a href="#" class="sale-link">Sale</a></li>
+                    <li><a href="#" onclick="showPage('about')">About Us</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search" onclick="toggleInlineSearch()"></i>
+                        <input type="text" id="inlineSearchInput" class="inline-search-input" placeholder="Search..." onkeyup="searchProducts()">
+                    </div>
+                    
+                    <!-- User Account Dropdown -->
+                    <div class="user-account-wrapper">
+                        <i class="fas fa-user" id="userIcon" onclick="toggleUserMenu()" title="Login / Register"></i>
+                        <div class="user-dropdown-menu" id="userDropdownMenu">
+                            <div class="user-dropdown-header">
+                                <div class="user-avatar" id="userDropdownAvatar">U</div>
+                                <div>
+                                    <div class="user-dropdown-name" id="userDropdownName">Guest</div>
+                                    <div class="user-dropdown-email" id="userDropdownEmail">Login to continue</div>
+                                </div>
+                            </div>
+                            <div class="user-dropdown-divider"></div>
+                            <a href="#" onclick="showPage('account'); closeUserMenu();" class="user-dropdown-item">
+                                <i class="fas fa-user-circle"></i> My Account
+                            </a>
+                            <a href="#" onclick="showPage('orders'); closeUserMenu();" class="user-dropdown-item">
+                                <i class="fas fa-shopping-bag"></i> Your Orders
+                            </a>
+                            <a href="#" onclick="showPage('wishlist'); closeUserMenu();" class="user-dropdown-item">
+                                <i class="fas fa-heart"></i> My Wishlist
+                            </a>
+                            <div class="user-dropdown-divider"></div>
+                            <a href="#" onclick="handleLogout(); closeUserMenu();" class="user-dropdown-item" id="logoutMenuItem">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-icon-wrapper">
+                        <i class="fas fa-heart" onclick="showPage('wishlist')" title="Wishlist"></i>
+                        <span class="cart-badge" id="wishlistBadge">0</span>
+                    </div>
+                    <div class="cart-icon-wrapper">
+                        <i class="fas fa-shopping-cart" onclick="showPage('cart')"></i>
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </div>
+                    <i class="fas fa-bars mobile-menu-toggle" onclick="toggleMobileMenu()"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Search Bar -->
+        <div class="search-bar" id="searchBar">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+                <i class="fas fa-times" onclick="toggleSearch()"></i>
+            </div>
+        </div>
+
+        <!-- Homepage -->
+        <div id="homePage" class="page active">
+            <!-- Premium Sliding Carousel -->
+            <section class="carousel-section">
+                <div class="carousel-container" id="carouselContainer">
+                    <div class="carousel-slides" id="carouselSlides">
+                        <!-- Slides will be dynamically inserted -->
+                    </div>
+                    <button class="carousel-nav carousel-prev" onclick="carouselNavigate(-1)" aria-label="Previous slide">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-nav carousel-next" onclick="carouselNavigate(1)" aria-label="Next slide">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="carousel-pagination" id="carouselPagination">
+                        <!-- Pagination dots will be dynamically inserted -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Categories -->
+            <section class="categories">
+                <div class="container">
+                    <h2 class="section-title">Shop by Category</h2>
+                    <div class="category-grid" id="categoryGrid"></div>
+                </div>
+            </section>
+
+
+
+            <!-- Trending Products -->
+            <section class="products-section">
+                <div class="container">
+                    <h2 class="section-title">Trending Products</h2>
+                    <div class="products-grid" id="trendingProducts"></div>
+                </div>
+            </section>
+
+            <!-- Newsletter -->
+            <section class="newsletter">
+                <div class="container">
+                    <h3>Subscribe to our Newsletter</h3>
+                    <p>Get updates on new arrivals and exclusive offers</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button class="btn btn-primary">Subscribe</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Shop Page -->
+        <div id="shopPage" class="page">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" onclick="showPage('home')">Home</a> / <span>Shop</span>
+                </div>
+                <div class="shop-layout">
+                    <aside class="filters-sidebar">
+                        <h3>Filters</h3>
+                        <div class="filter-group">
+                            <h4>Category</h4>
+                            <div id="categoryFilters"></div>
+                        </div>
+                        <div class="filter-group">
+                            <h4>Price Range</h4>
+                            <input type="range" id="priceRange" min="0" max="10000" value="10000" oninput="updatePriceLabel()">
+                            <div class="price-label">Up to ₹<span id="priceLabel">10000</span></div>
+                        </div>
+                        <div class="filter-group">
+                            <h4>Size</h4>
+                            <div id="sizeFilters"></div>
+                        </div>
+                        <div class="filter-group">
+                            <h4>Color</h4>
+                            <div id="colorFilters" class="color-filters"></div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="applyFilters()">Apply Filters</button>
+                        <button class="btn btn-text" onclick="resetFilters()">Reset</button>
+                    </aside>
+                    <div class="shop-content">
+                        <div class="shop-header">
+                            <div class="products-count">Showing <span id="productsCount">0</span> products</div>
+                            <select id="sortSelect" onchange="sortProducts()">
+                                <option value="featured">Featured</option>
+                                <option value="priceLow">Price: Low to High</option>
+                                <option value="priceHigh">Price: High to Low</option>
+                                <option value="newest">Newest</option>
+                                <option value="rating">Best Rated</option>
+                            </select>
+                        </div>
+                        <div class="products-grid" id="shopProducts"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Detail Page -->
+        <div id="productDetailPage" class="page">
+            <div class="container">
+                <div class="breadcrumb" id="productBreadcrumb"></div>
+                <div class="product-detail" id="productDetail"></div>
+                <div class="related-products">
+                    <h2 class="section-title">Related Products</h2>
+                    <div class="products-grid" id="relatedProducts"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Page -->
+        <div id="cartPage" class="page">
+            <div class="container">
+                <h2 class="page-title">Shopping Cart</h2>
+                <div class="cart-layout">
+                    <div class="cart-items" id="cartItems"></div>
+                    <div class="cart-summary">
+                        <h3>Order Summary</h3>
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="cartSubtotal">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Discount:</span>
+                            <span id="cartDiscount">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping:</span>
+                            <span id="cartShipping">₹0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="cartTotal">₹0</span>
+                        </div>
+                        <div class="coupon-input">
+                            <input type="text" id="couponCode" placeholder="Coupon code">
+                            <button class="btn btn-secondary" onclick="applyCoupon()">Apply</button>
+                        </div>
+                        <button class="btn btn-primary btn-full" onclick="showPage('checkout')">Proceed to Checkout</button>
+                        <button class="btn btn-text btn-full" onclick="showPage('shop')">Continue Shopping</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Page -->
+        <div id="checkoutPage" class="page">
+            <div class="container">
+                <h2 class="page-title">Checkout</h2>
+                <div class="checkout-progress">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Shipping</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Payment</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Review</div>
+                    </div>
+                </div>
+                <div class="checkout-layout">
+                    <div class="checkout-form">
+                        <div class="checkout-step" id="shippingStep">
+                            <h3>Shipping Information</h3>
+                            <p style="color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.9rem;"><span style="color: var(--accent-gold);">*</span> All fields are required</p>
+                            <form id="shippingForm" onsubmit="return false;">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Full Name <span style="color: var(--accent-gold);">*</span></label>
+                                        <input type="text" id="shippingName" required onblur="validateField('shippingName')" oninput="clearError('shippingName')">
+                                        <span class="error-message" id="shippingName-error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone Number <span style="color: var(--accent-gold);">*</span></label>
+                                        <input type="tel" id="shippingPhone" required placeholder="10 digit number" onblur="validateField('shippingPhone')" oninput="clearError('shippingPhone')">
+                                        <span class="error-message" id="shippingPhone-error"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Address <span style="color: var(--accent-gold);">*</span></label>
+                                    <input type="email" id="shippingEmail" required placeholder="user@example.com" onblur="validateField('shippingEmail')" oninput="clearError('shippingEmail')">
+                                    <span class="error-message" id="shippingEmail-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Street Address <span style="color: var(--accent-gold);">*</span></label>
+                                    <textarea id="shippingAddress" rows="3" required placeholder="Enter complete address (min 10 characters)" onblur="validateField('shippingAddress')" oninput="clearError('shippingAddress')"></textarea>
+                                    <span class="error-message" id="shippingAddress-error"></span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>City <span style="color: var(--accent-gold);">*</span></label>
+                                        <input type="text" id="shippingCity" required onblur="validateField('shippingCity')" oninput="clearError('shippingCity')">
+                                        <span class="error-message" id="shippingCity-error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>State/Province <span style="color: var(--accent-gold);">*</span></label>
+                                        <input type="text" id="shippingState" required onblur="validateField('shippingState')" oninput="clearError('shippingState')">
+                                        <span class="error-message" id="shippingState-error"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Postal Code <span style="color: var(--accent-gold);">*</span></label>
+                                        <input type="text" id="shippingPincode" required placeholder="6 digits" onblur="validateField('shippingPincode')" oninput="clearError('shippingPincode')">
+                                        <span class="error-message" id="shippingPincode-error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Country <span style="color: var(--accent-gold);">*</span></label>
+                                        <select id="shippingCountry" required onblur="validateField('shippingCountry')" onchange="clearError('shippingCountry')">
+                                            <option value="">Select Country</option>
+                                            <option value="India" selected>India</option>
+                                            <option value="USA">United States</option>
+                                            <option value="UK">United Kingdom</option>
+                                            <option value="Canada">Canada</option>
+                                            <option value="Australia">Australia</option>
+                                        </select>
+                                        <span class="error-message" id="shippingCountry-error"></span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="continueToPaymentBtn" onclick="validateAndProceedToPayment()">Continue to Payment</button>
+                            </form>
+                        </div>
+                        <div class="checkout-step" id="paymentStep" style="display:none;">
+                            <h3>Payment Method</h3>
+                            <p style="color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.9rem;">Select your preferred payment method</p>
+                            <div class="payment-methods">
+                                <label class="payment-option">
+                                    <input type="radio" name="paymentMethod" value="card" checked onchange="showPaymentForm('card')">
+                                    <span><i class="fas fa-credit-card"></i> Credit/Debit Card</span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="paymentMethod" value="upi" onchange="showPaymentForm('upi')">
+                                    <span><i class="fas fa-mobile-alt"></i> UPI</span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="paymentMethod" value="wallet" onchange="showPaymentForm('wallet')">
+                                    <span><i class="fas fa-wallet"></i> Digital Wallet</span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="paymentMethod" value="cod" onchange="showPaymentForm('cod')">
+                                    <span><i class="fas fa-money-bill-wave"></i> Cash on Delivery</span>
+                                </label>
+                            </div>
+                            
+                            <div class="payment-form-container" id="cardForm" style="margin-top: 1.5rem;">
+                                <h4 style="margin-bottom: 1rem; color: var(--accent-gold);">Card Details <span style="color: var(--accent-gold);">*</span></h4>
+                                <div class="form-group">
+                                    <label>Card Number <span style="color: var(--accent-gold);">*</span></label>
+                                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required onblur="validateField('cardNumber')" oninput="formatCardNumber(this); clearError('cardNumber');">
+                                    <span class="error-message" id="cardNumber-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cardholder Name <span style="color: var(--accent-gold);">*</span></label>
+                                    <input type="text" id="cardholderName" placeholder="Name on card" required onblur="validateField('cardholderName')" oninput="clearError('cardholderName')">
+                                    <span class="error-message" id="cardholderName-error"></span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Expiry Date <span style="color: var(--accent-gold);">*</span></label>
+                                        <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" required onblur="validateField('cardExpiry')" oninput="formatExpiry(this); clearError('cardExpiry');">
+                                        <span class="error-message" id="cardExpiry-error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>CVV <span style="color: var(--accent-gold);">*</span></label>
+                                        <input type="text" id="cardCVV" placeholder="123" maxlength="4" required onblur="validateField('cardCVV')" oninput="clearError('cardCVV')">
+                                        <span class="error-message" id="cardCVV-error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-form-container" id="upiForm" style="display: none; margin-top: 1.5rem;">
+                                <h4 style="margin-bottom: 1rem; color: var(--accent-gold);">UPI Details <span style="color: var(--accent-gold);">*</span></h4>
+                                <div class="form-group">
+                                    <label>UPI ID <span style="color: var(--accent-gold);">*</span></label>
+                                    <input type="text" id="upiId" placeholder="yourname@bank" required onblur="validateField('upiId')" oninput="clearError('upiId')">
+                                    <span class="error-message" id="upiId-error"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-form-container" id="walletForm" style="display: none; margin-top: 1.5rem;">
+                                <h4 style="margin-bottom: 1rem; color: var(--accent-gold);">Wallet Details <span style="color: var(--accent-gold);">*</span></h4>
+                                <div class="form-group">
+                                    <label>Select Wallet <span style="color: var(--accent-gold);">*</span></label>
+                                    <select id="walletType" required onchange="clearError('walletType')">
+                                        <option value="">Choose a wallet</option>
+                                        <option value="paytm">Paytm</option>
+                                        <option value="gpay">Google Pay</option>
+                                        <option value="phonepe">PhonePe</option>
+                                        <option value="amazonpay">Amazon Pay</option>
+                                    </select>
+                                    <span class="error-message" id="walletType-error"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-form-container" id="codForm" style="display: none; margin-top: 1.5rem;">
+                                <h4 style="margin-bottom: 1rem; color: var(--accent-gold);">Cash on Delivery</h4>
+                                <div style="background: var(--primary-dark); padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--accent-gold);">
+                                    <p style="color: var(--text-gray); line-height: 1.6; margin-bottom: 1rem;"><i class="fas fa-info-circle" style="color: var(--accent-gold);"></i> You will pay in cash when your order is delivered.</p>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                        <input type="checkbox" id="codConfirm" required>
+                                        <span>I confirm that I will pay cash on delivery</span>
+                                    </label>
+                                    <span class="error-message" id="codConfirm-error"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="checkout-actions" style="margin-top: 1.5rem;">
+                                <button class="btn btn-secondary" onclick="prevCheckoutStep()">Back</button>
+                                <button class="btn btn-primary" id="continueToReviewBtn" onclick="validateAndProceedToReview()">Continue to Review</button>
+                            </div>
+                        </div>
+                        <div class="checkout-step" id="reviewStep" style="display:none;">
+                            <h3>Review Order</h3>
+                            <div id="orderReview"></div>
+                            <div class="checkout-actions">
+                                <button class="btn btn-secondary" onclick="prevCheckoutStep()">Back</button>
+                                <button class="btn btn-primary" onclick="placeOrder()">Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkout-summary">
+                        <h3>Order Summary</h3>
+                        <div id="checkoutSummary"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Your Orders Page -->
+        <div id="ordersPage" class="page">
+            <div class="container">
+                <h2 class="page-title">Your Orders</h2>
+                
+                <div class="orders-filters" style="background: var(--card-bg); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <input type="text" id="orderSearchInput" placeholder="Search by order number, product name..." style="width: 100%; padding: 0.8rem; background: var(--primary-dark); border: 1px solid var(--border-dark); border-radius: 8px; color: var(--text-light);" onkeyup="searchOrders()">
+                    </div>
+                    <select id="orderStatusFilterCustomer" onchange="filterCustomerOrders()" style="padding: 0.8rem 1rem; background: var(--primary-dark); border: 1px solid var(--border-dark); border-radius: 8px; color: var(--text-light); min-width: 150px;">
+                        <option value="all">All Orders</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Out for Delivery">Out for Delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                    <select id="orderSortCustomer" onchange="sortCustomerOrders()" style="padding: 0.8rem 1rem; background: var(--primary-dark); border: 1px solid var(--border-dark); border-radius: 8px; color: var(--text-light); min-width: 150px;">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="amount-high">Highest Amount</option>
+                        <option value="amount-low">Lowest Amount</option>
+                    </select>
+                </div>
+                
+                <div id="customerOrdersList"></div>
+            </div>
+        </div>
+
+        <!-- Wishlist Page -->
+        <div id="wishlistPage" class="page">
+            <div class="container">
+                <h2 class="page-title">My Wishlist</h2>
+                <div id="wishlistContent">
+                    <div class="products-grid" id="wishlistProductsGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Page -->
+        <div id="accountPage" class="page">
+            <div class="container">
+                <h2 class="page-title">My Account</h2>
+                <div class="account-layout">
+                    <aside class="account-sidebar">
+                        <div style="text-align: center; margin-bottom: 2rem; padding: 1.5rem; background: var(--primary-dark); border-radius: 12px;">
+                            <div style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, var(--accent-gold) 0%, #f4e5c3 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary-dark); font-weight: 800;" id="userAvatar">U</div>
+                            <h3 id="accountUserName" style="margin-bottom: 0.3rem;">User</h3>
+                            <p id="accountUserEmail" style="color: var(--text-gray); font-size: 0.9rem;">user@example.com</p>
+                        </div>
+                        <ul class="account-menu">
+                            <li><a href="#" onclick="showAccountSection('profile')" class="active"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a href="#" onclick="showAccountSection('orders')"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+                            <li><a href="#" onclick="showAccountSection('wishlist')"><i class="fas fa-heart"></i> Wishlist</a></li>
+                            <li><a href="#" onclick="showAccountSection('addresses')"><i class="fas fa-map-marker-alt"></i> Addresses</a></li>
+                            <li><a href="#" onclick="showAccountSection('settings')"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><a href="#" onclick="customerLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </aside>
+                    <div class="account-content">
+                        <!-- Profile Section -->
+                        <div id="profileSection" class="account-section active">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                <h3 style="margin: 0;">Profile Information</h3>
+                                <button class="btn btn-primary" id="editProfileBtn" onclick="toggleEditProfile()"><i class="fas fa-edit"></i> Edit Profile</button>
+                            </div>
+                            <div style="background: var(--card-bg); padding: 2rem; border-radius: 12px;">
+                                <div class="form-group">
+                                    <label>Full Name <span style="color: var(--accent-gold);" id="nameRequiredStar">*</span></label>
+                                    <input type="text" id="profileName" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email <span style="color: var(--text-gray); font-size: 0.85rem;">(Cannot be changed)</span></label>
+                                    <input type="email" id="profileEmail" class="form-control" readonly style="background: var(--secondary-dark); cursor: not-allowed;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number <span style="color: var(--accent-gold);" id="phoneRequiredStar">*</span></label>
+                                    <input type="tel" id="profilePhone" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Member Since</label>
+                                    <input type="text" id="profileJoinDate" class="form-control" readonly style="background: var(--secondary-dark); cursor: not-allowed;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Login</label>
+                                    <input type="text" id="profileLastLogin" class="form-control" readonly style="background: var(--secondary-dark); cursor: not-allowed;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Status</label>
+                                    <input type="text" id="profileStatus" class="form-control" readonly style="background: var(--secondary-dark); cursor: not-allowed;">
+                                </div>
+                                <div id="profileEditActions" style="display: none; gap: 1rem; margin-top: 1.5rem;">
+                                    <button class="btn btn-primary" onclick="saveProfileChanges()"><i class="fas fa-save"></i> Save Changes</button>
+                                    <button class="btn btn-secondary" onclick="cancelEditProfile()"><i class="fas fa-times"></i> Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Orders Section -->
+                        <div id="ordersSection" class="account-section">
+                            <h3 style="margin-bottom: 1.5rem;">My Orders</h3>
+                            <div id="userOrdersList"></div>
+                        </div>
+                        
+                        <!-- Wishlist Section -->
+                        <div id="wishlistSection" class="account-section">
+                            <h3 style="margin-bottom: 1.5rem;">My Wishlist</h3>
+                            <div class="products-grid" id="wishlistProducts"></div>
+                        </div>
+                        
+                        <!-- Addresses Section -->
+                        <div id="addressesSection" class="account-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                <h3 style="margin: 0;">Saved Addresses</h3>
+                                <button class="btn btn-primary" onclick="showAddAddressModal()"><i class="fas fa-plus"></i> Add New Address</button>
+                            </div>
+                            <div id="addressesList"></div>
+                        </div>
+                        
+                        <!-- Settings Section -->
+                        <div id="settingsSection" class="account-section">
+                            <h3 style="margin-bottom: 1.5rem;">Account Settings</h3>
+                            <div style="background: var(--card-bg); padding: 2rem; border-radius: 12px;">
+                                <h4 style="margin-bottom: 1rem;">Change Password</h4>
+                                <div class="form-group">
+                                    <label>Current Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter current password">
+                                </div>
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter new password">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm New Password</label>
+                                    <input type="password" class="form-control" placeholder="Confirm new password">
+                                </div>
+                                <button class="btn btn-primary">Update Password</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Public Track Order Page -->
+        <div id="trackOrderPage" class="page">
+            <div class="container">
+                <h2 class="page-title">Track Your Order</h2>
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <div style="background: var(--card-bg); padding: 3rem; border-radius: 16px; border-top: 3px solid var(--accent-gold); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <i class="fas fa-search-location" style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                            <h3 style="color: var(--text-light); margin-bottom: 0.5rem;">Enter Your Order Details</h3>
+                            <p style="color: var(--text-gray); font-size: 0.9rem;">Track your order without logging in</p>
+                        </div>
+                        
+                        <form onsubmit="trackOrderPublic(event)">
+                            <div class="form-group">
+                                <label>Order Number <span style="color: var(--accent-gold);">*</span></label>
+                                <input type="text" id="publicTrackOrderNumber" required placeholder="AKR-202511XXXXXX-XXXX" style="font-family: 'Courier New', monospace;">
+                                <p style="color: var(--text-gray); font-size: 0.85rem; margin-top: 0.5rem;"><i class="fas fa-info-circle"></i> You can find this in your confirmation email</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Email or Phone <span style="color: var(--accent-gold);">*</span></label>
+                                <input type="text" id="publicTrackContact" required placeholder="Email or phone used during order">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-full" style="padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">
+                                <i class="fas fa-search"></i> Track Order
+                            </button>
+                        </form>
+                        
+                        <div style="background: var(--primary-dark); padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border-left: 3px solid var(--info);">
+                            <h4 style="color: var(--accent-gold); margin-bottom: 0.8rem; font-size: 0.95rem;"><i class="fas fa-question-circle"></i> Don't have your order number?</h4>
+                            <p style="color: var(--text-gray); font-size: 0.85rem; line-height: 1.6; margin-bottom: 0.8rem;">
+                                • Check your email inbox for order confirmation<br>
+                                • Look for subject: "Order Confirmation"<br>
+                                • Or login to view all your orders
+                            </p>
+                            <button class="btn btn-secondary btn-full" onclick="toggleAuthModal()" style="padding: 0.7rem;">
+                                <i class="fas fa-sign-in-alt"></i> Login to View Orders
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Us Page -->
+        <div id="aboutPage" class="page">
+            <div class="container">
+                <h2 class="page-title">About Akrul</h2>
+                <div class="about-hero">
+                    <p class="about-welcome">Welcome to Akrul, where style meets comfort and quality meets affordability.</p>
+                    <p class="about-intro">We believe fashion should be simple, expressive, and accessible to everyone. That's why we bring you a curated collection of premium clothing designed for everyday wear, special moments, and everything in between.</p>
+                </div>
+                
+                <div class="about-features">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-certificate"></i></div>
+                        <h3>Quality You Can Feel</h3>
+                        <p>Every product is made with carefully selected fabrics, tested for comfort, durability, and long-lasting color.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-palette"></i></div>
+                        <h3>Designs That Speak Your Style</h3>
+                        <p>From casual wear to trendy street fashion, we create designs that help you express your identity effortlessly.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-tags"></i></div>
+                        <h3>Prices That Make Sense</h3>
+                        <p>We believe good fashion shouldn't be expensive. Akrul offers stylish, high-quality apparel at honest and affordable prices.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-heart"></i></div>
+                        <h3>Customer-First Approach</h3>
+                        <p>Your satisfaction is our priority. With easy shopping, smooth delivery, and responsive support, we make sure your buying experience is as good as the clothes you wear.</p>
+                    </div>
+                </div>
+                
+                <div class="mission-vision">
+                    <div class="mission-card">
+                        <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                        <p>To make fashion comfortable, affordable, and modern—bringing confidence and style into everyone's wardrobe.</p>
+                    </div>
+                    <div class="vision-card">
+                        <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                        <p>To become one of India's most trusted online fashion brands by staying authentic, innovative, and customer-centric.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms & Conditions Page -->
+        <div id="termsPage" class="page">
+            <div class="container">
+                <h2 class="page-title">Terms &amp; Conditions</h2>
+                <div class="terms-content">
+                    <p class="terms-intro">By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+                    
+                    <div class="terms-section">
+                        <h3>1. Agreement to Terms</h3>
+                        <p>By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>2. Use License</h3>
+                        <p>Permission is granted to temporarily download one copy of the materials (information or software) on Akrul's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+                        <ul>
+                            <li>Modifying or copying the materials</li>
+                            <li>Using the materials for any commercial purpose or for any public display</li>
+                            <li>Attempting to decompile or reverse engineer any software contained on the website</li>
+                            <li>Removing any copyright or other proprietary notations from the materials</li>
+                            <li>Transferring the materials to another person or "mirroring" the materials on any other server</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>3. Disclaimer of Warranties</h3>
+                        <p>The materials on Akrul's website are provided "as is". Akrul makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>4. Limitations of Liability</h3>
+                        <p>In no event shall Akrul or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Akrul's website.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>5. Accuracy of Materials</h3>
+                        <p>The materials appearing on Akrul's website could include technical, typographical, or photographic errors. Akrul does not warrant that any of the materials on its website are accurate, complete, or current. Akrul may make changes to the materials contained on its website at any time without notice.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>6. Materials and Content</h3>
+                        <p>Akrul has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Akrul of the site. Use of any such linked website is at the user's own risk.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>7. Modifications</h3>
+                        <p>Akrul may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>8. Governing Law</h3>
+                        <p>These terms and conditions are governed by and construed in accordance with the laws of India and you irrevocably submit to the exclusive jurisdiction of the courts located in India.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>9. Return &amp; Refund Policy</h3>
+                        <p>We want you to be completely satisfied with your purchase. If you're not happy with your product, please contact us within 7 days of delivery. We offer exchanges and returns for defective or damaged items. Refunds are processed within 7-10 business days after we receive your return.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>10. Shipping Policy</h3>
+                        <p>We ship to all locations across India. Standard shipping typically takes 3-5 business days. Express shipping is available for an additional fee. All shipments are insured and tracking information will be provided via email.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>11. Payment Policy</h3>
+                        <p>We accept all major credit cards, debit cards, UPI, digital wallets, and cash on delivery. All transactions are secure and encrypted. Payment is required at the time of checkout.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>12. Intellectual Property Rights</h3>
+                        <p>All content on this website, including text, graphics, logos, images, and software, is the property of Akrul or its content suppliers and is protected by international copyright laws.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>13. User Responsibilities</h3>
+                        <p>By using this website, you warrant that you are at least 18 years of age and possess the legal authority to enter into this agreement. You are responsible for maintaining the confidentiality of your account information.</p>
+                    </div>
+                    
+                    <div class="terms-section">
+                        <h3>14. Contact Information</h3>
+                        <p>If you have any questions about these terms and conditions, please contact us at <a href="tel:+916266568880">+91 6266568880</a> or visit our Instagram <a href="https://www.instagram.com/akrulofficial?igsh=MW42bDE0NWRqbjZmaw==" target="_blank">@akrulofficial</a>.</p>
+                        <p class="terms-updated">Last Updated: November 15, 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h4>AKRUL</h4>
+                        <p>Premium fashion for modern men</p>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#" onclick="showPage('shop')">Shop</a></li>
+                            <li><a href="#" onclick="showPage('collections')">Collections</a></li>
+                            <li><a href="#" onclick="showPage('about')">About Us</a></li>
+                            <li><a href="#" onclick="showPage('terms')">Terms &amp; Conditions</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact Us</h4>
+                        <ul>
+                            <li><i class="fas fa-phone" style="margin-right: 8px; color: var(--accent-gold);"></i><a href="tel:+916266568880">+91 6266568880</a></li>
+                            <li><i class="fas fa-envelope" style="margin-right: 8px; color: var(--accent-gold);"></i><a href="mailto:contact@akrul.com">contact@akrul.com</a></li>
+                            <li><a href="#">Shipping Info</a></li>
+                            <li><a href="#">Returns</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Follow Us</h4>
+                        <div class="social-icons">
+                            <a href="https://www.instagram.com/akrulofficial?igsh=MW42bDE0NWRqbjZmaw==" target="_blank" title="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" title="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" title="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                        </div>
+                        <button class="btn btn-secondary" onclick="showAdminPortal()" style="margin-top: 20px;">Admin Portal</button>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 AKRUL. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Admin Portal -->
+    <div id="adminPortal" style="display: none;">
+        <!-- Admin Login -->
+        <div id="adminLogin" class="admin-login">
+            <div class="login-card">
+                <h2>AKRUL Admin</h2>
+                <form onsubmit="adminLoginSubmit(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="adminEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="adminPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                    <div class="login-hint">Use: admin@akrul.com / admin123</div>
+                </form>
+                <button class="btn btn-text" onclick="backToCustomerSite()">Back to Store</button>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" style="display: none;">
+            <div class="admin-layout">
+                <aside class="admin-sidebar" id="adminSidebar">
+                    <div class="admin-logo">
+                        <h2>AKRUL Admin</h2>
+                    </div>
+                    <nav class="admin-nav">
+                        <a href="#" onclick="showAdminPage('dashboard')" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        <a href="#" onclick="showAdminPage('products')"><i class="fas fa-box"></i> Products</a>
+                        <a href="#" onclick="showAdminPage('orders')"><i class="fas fa-shopping-bag"></i> Orders</a>
+                        <a href="#" onclick="showAdminPage('customers')"><i class="fas fa-users"></i> Customers</a>
+                        <a href="#" onclick="showAdminPage('users')"><i class="fas fa-user-shield"></i> User Accounts</a>
+                        <a href="#" onclick="showAdminPage('inventory')"><i class="fas fa-warehouse"></i> Inventory</a>
+                        <a href="#" onclick="showAdminPage('analytics')"><i class="fas fa-chart-line"></i> Analytics</a>
+                        <a href="#" onclick="showAdminPage('payments')"><i class="fas fa-credit-card"></i> Payments</a>
+                        <a href="#" onclick="showAdminPage('settings')"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </nav>
+                </aside>
+                <div class="admin-main">
+                    <header class="admin-header">
+                        <i class="fas fa-bars mobile-menu-toggle" onclick="toggleAdminSidebar()"></i>
+                        <div class="admin-header-right">
+                            <i class="fas fa-bell"></i>
+                            <div class="admin-profile">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Admin</span>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="admin-content">
+                        <!-- Dashboard Page -->
+                        <div id="adminDashboardPage" class="admin-page active">
+                            <h1>Dashboard</h1>
+                            <div class="stats-grid" id="statsGrid"></div>
+                            <div class="dashboard-charts">
+                                <div class="chart-card">
+                                    <h3>Revenue Overview</h3>
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="dashboard-tables">
+                                <div class="table-card">
+                                    <h3>Recent Orders</h3>
+                                    <div id="recentOrdersTable"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Products Page -->
+                        <div id="adminProductsPage" class="admin-page">
+                            <div class="page-header">
+                                <h1>Products</h1>
+                                <button class="btn btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Add Product</button>
+                            </div>
+                            <div class="table-card">
+                                <div class="table-header">
+                                    <input type="text" placeholder="Search products..." id="productSearch" onkeyup="searchAdminProducts()">
+                                </div>
+                                <div id="productsTable"></div>
+                            </div>
+                        </div>
+
+                        <!-- Orders Page -->
+                        <div id="adminOrdersPage" class="admin-page">
+                            <h1>Orders</h1>
+                            <div class="table-card">
+                                <div class="table-header">
+                                    <select id="orderStatusFilter" onchange="filterOrders()">
+                                        <option value="all">All Orders</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="Shipped">Shipped</option>
+                                        <option value="Delivered">Delivered</option>
+                                    </select>
+                                </div>
+                                <div id="ordersTable"></div>
+                            </div>
+                        </div>
+
+                        <!-- Customers Page -->
+                        <div id="adminCustomersPage" class="admin-page">
+                            <h1>Customers</h1>
+                            <div class="table-card">
+                                <div id="customersTable"></div>
+                            </div>
+                        </div>
+
+                        <!-- User Accounts Page -->
+                        <div id="adminUsersPage" class="admin-page">
+                            <h1>Registered User Accounts</h1>
+                            <div class="stats-grid" style="margin-bottom: 2rem;">
+                                <div class="stat-card">
+                                    <h4>Total Users</h4>
+                                    <div class="stat-value" id="totalUsersCount">0</div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>Active Users</h4>
+                                    <div class="stat-value" id="activeUsersCount">0</div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>Verified Emails</h4>
+                                    <div class="stat-value" id="verifiedEmailsCount">0</div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>New This Month</h4>
+                                    <div class="stat-value" id="newUsersCount">0</div>
+                                </div>
+                            </div>
+                            <div class="table-card">
+                                <h3>All Registered Users</h3>
+                                <div id="usersTable"></div>
+                            </div>
+                        </div>
+
+                        <!-- Inventory Page -->
+                        <div id="adminInventoryPage" class="admin-page">
+                            <h1>Inventory</h1>
+                            <div class="table-card">
+                                <div id="inventoryTable"></div>
+                            </div>
+                        </div>
+
+                        <!-- Analytics Page -->
+                        <div id="adminAnalyticsPage" class="admin-page">
+                            <h1>Analytics</h1>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <h4>Total Sales</h4>
+                                    <div class="stat-value">₹458,900</div>
+                                    <div class="stat-change positive">+12.5%</div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>Avg Order Value</h4>
+                                    <div class="stat-value">₹3,680</div>
+                                    <div class="stat-change positive">+5.2%</div>
+                                </div>
+                            </div>
+                            <div class="chart-card">
+                                <h3>Sales Trend</h3>
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Payments Page -->
+                        <div id="adminPaymentsPage" class="admin-page">
+                            <h1>Payment Management</h1>
+                            
+                            <div class="table-card">
+                                <h3>Payment Transactions</h3>
+                                <p style="color: var(--text-gray); margin-bottom: 1rem;">All payment transactions processed through the platform</p>
+                                <div id="paymentTransactionsTable"></div>
+                            </div>
+                            
+                            <div id="paymentGatewaySettings" style="margin-top: 2rem;"></div>
+                        </div>
+
+                        <!-- Settings Page -->
+                        <div id="adminSettingsPage" class="admin-page">
+                            <h1>Settings</h1>
+                            <div class="settings-tabs">
+                                <button class="tab-btn active" onclick="showSettingsTab('general')">General</button>
+                                <button class="tab-btn" onclick="showSettingsTab('payment')">Payment Methods</button>
+                                <button class="tab-btn" onclick="showSettingsTab('shipping')">Shipping</button>
+                            </div>
+                            <div class="settings-content">
+                                <div id="generalSettings" class="settings-tab active">
+                                    <h3>General Settings</h3>
+                                    <form class="settings-form">
+                                        <div class="form-group">
+                                            <label>Store Name</label>
+                                            <input type="text" value="AKRUL">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" value="info@akrul.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone</label>
+                                            <input type="tel" value="+91 1234567890">
+                                        </div>
+                                        <button type="button" class="btn btn-primary">Save Changes</button>
+                                    </form>
+                                </div>
+                                <div id="paymentSettings" class="settings-tab">
+                                    <h3>Payment Methods</h3>
+                                    <div class="payment-toggles">
+                                        <label class="toggle-option">
+                                            <input type="checkbox" checked>
+                                            <span>Credit/Debit Card</span>
+                                        </label>
+                                        <label class="toggle-option">
+                                            <input type="checkbox" checked>
+                                            <span>UPI</span>
+                                        </label>
+                                        <label class="toggle-option">
+                                            <input type="checkbox" checked>
+                                            <span>Wallet</span>
+                                        </label>
+                                        <label class="toggle-option">
+                                            <input type="checkbox" checked>
+                                            <span>Cash on Delivery</span>
+                                        </label>
+                                    </div>
+                                    <button class="btn btn-primary">Save Changes</button>
+                                </div>
+                                <div id="shippingSettings" class="settings-tab">
+                                    <h3>Shipping Settings</h3>
+                                    <form class="settings-form">
+                                        <div class="form-group">
+                                            <label>Free Shipping Threshold</label>
+                                            <input type="number" value="999">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Standard Shipping Rate</label>
+                                            <input type="number" value="99">
+                                        </div>
+                                        <button type="button" class="btn btn-primary">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="toggleAuthModal()">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="showAuthTab('login')">Login</button>
+                <button class="auth-tab" onclick="showAuthTab('register')">Register</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active" onsubmit="customerLogin(event)">
+                <h3>Welcome Back!</h3>
+                <p style="color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.9rem;">Login with your email or phone number</p>
+                
+                <div class="form-group">
+                    <label>Email or Phone Number <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="text" id="loginUsername" required placeholder="Email or 10-digit phone" onblur="validateLoginField('loginUsername')" oninput="clearLoginError('loginUsername')">
+                    <span class="error-message" id="loginUsername-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password" onblur="validateLoginField('loginPassword')" oninput="clearLoginError('loginPassword')">
+                    <span class="error-message" id="loginPassword-error"></span>
+                </div>
+                
+                <div class="form-group" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <input type="checkbox" id="rememberMe" style="width: 24px; height: 24px; cursor: pointer; accent-color: var(--accent-gold);">
+                    <label for="rememberMe" style="margin: 0; cursor: pointer; user-select: none;">Remember me</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                
+                <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 2px solid var(--accent-gold);">
+                    <div style="text-align: center; margin-bottom: 0.5rem; color: var(--accent-gold); font-weight: 600; font-size: 0.9rem;">
+                        <i class="fas fa-key"></i> Test Login Credentials
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-gray); line-height: 1.6; margin-bottom: 0.8rem;">
+                        <div style="margin-bottom: 0.3rem;"><strong style="color: var(--text-light);">Email:</strong> testuser@akrul.com</div>
+                        <div><strong style="color: var(--text-light);">Password:</strong> TestAkrul@123</div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" style="width: 100%; padding: 0.6rem; font-size: 0.85rem;" onclick="document.getElementById('loginUsername').value='testuser@akrul.com'; document.getElementById('loginPassword').value='TestAkrul@123';">
+                        <i class="fas fa-magic"></i> Auto-Fill Test Credentials
+                    </button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="#" onclick="showForgotPassword(); return false;" style="color: var(--accent-gold); font-size: 0.9rem;">Forgot Password?</a>
+                </div>
+                
+                <p style="text-align: center; color: var(--text-gray); margin-top: 1rem; font-size: 0.9rem;">
+                    Don't have an account? <a href="#" onclick="showAuthTab('register'); return false;" style="color: var(--accent-gold);">Register here</a>
+                </p>
+            </form>
+            
+            <!-- Registration Form -->
+            <form id="registerForm" class="auth-form" onsubmit="customerRegister(event)">
+                <h3>Create Account</h3>
+                <p style="color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.9rem;">Join AKRUL for exclusive benefits</p>
+                
+                <div class="form-group">
+                    <label>Full Name <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="text" id="registerName" required placeholder="Min 3 characters" onblur="validateRegisterField('registerName')" oninput="clearRegisterError('registerName')">
+                    <span class="error-message" id="registerName-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="email" id="registerEmail" required placeholder="user@example.com" onblur="validateRegisterField('registerEmail')" oninput="clearRegisterError('registerEmail')">
+                    <span class="error-message" id="registerEmail-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Phone Number <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="tel" id="registerPhone" required placeholder="10-digit number" onblur="validateRegisterField('registerPhone')" oninput="clearRegisterError('registerPhone')">
+                    <span class="error-message" id="registerPhone-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="password" id="registerPassword" required placeholder="Min 8 chars, uppercase, lowercase, number, special char" onblur="validateRegisterField('registerPassword')" oninput="clearRegisterError('registerPassword'); updatePasswordStrength();">
+                    <span class="error-message" id="registerPassword-error"></span>
+                    <div id="passwordStrength" style="margin-top: 0.5rem;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Confirm Password <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="password" id="registerConfirmPassword" required placeholder="Re-enter password" onblur="validateRegisterField('registerConfirmPassword')" oninput="clearRegisterError('registerConfirmPassword')">
+                    <span class="error-message" id="registerConfirmPassword-error"></span>
+                </div>
+                
+                <div class="form-group" style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                    <input type="checkbox" id="registerTerms" required style="margin-top: 0.3rem;">
+                    <label for="registerTerms" style="margin: 0; cursor: pointer; font-size: 0.9rem;">
+                        I accept the <a href="#" onclick="showPage('terms'); toggleAuthModal(); return false;" style="color: var(--accent-gold);">Terms &amp; Conditions</a>
+                    </label>
+                </div>
+                <span class="error-message" id="registerTerms-error"></span>
+                
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                
+                <p style="text-align: center; color: var(--text-gray); margin-top: 1rem; font-size: 0.9rem;">
+                    Already have an account? <a href="#" onclick="showAuthTab('login'); return false;" style="color: var(--accent-gold);">Login here</a>
+                </p>
+            </form>
+            
+            <!-- Forgot Password Form -->
+            <form id="forgotPasswordForm" class="auth-form" onsubmit="sendPasswordReset(event)">
+                <h3>Reset Password</h3>
+                <p style="color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.9rem;">Enter your email or phone to receive a password reset link</p>
+                
+                <div class="form-group">
+                    <label>Email or Phone Number <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="text" id="forgotUsername" required placeholder="Email or phone number">
+                    <span class="error-message" id="forgotUsername-error"></span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Send Reset Link</button>
+                
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="#" onclick="showAuthTab('login'); return false;" style="color: var(--accent-gold); font-size: 0.9rem;">Back to Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    <div id="productModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="modal-close" onclick="closeProductModal()">&times;</span>
+            <h3 id="productModalTitle">Add Product</h3>
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>SKU</label>
+                        <input type="text" id="productSKU" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="productCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="Shirts">Shirts</option>
+                            <option value="T-Shirts">T-Shirts</option>
+                            <option value="Hoodies">Hoodies</option>
+                            <option value="Jackets">Jackets</option>
+                            <option value="Jeans">Jeans</option>
+                            <option value="Cargo">Cargo</option>
+                            <option value="Accessories">Accessories</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" id="productPrice" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Compare Price</label>
+                        <input type="number" id="productComparePrice">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock</label>
+                        <input type="number" id="productStock" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="productDescription" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="quickViewModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="modal-close" onclick="closeQuickView()">&times;</span>
+            <div id="quickViewContent"></div>
+        </div>
+    </div>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="modal-close" onclick="closeOrderModal()">&times;</span>
+            <div id="orderModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Address Modal -->
+    <div id="addressModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeAddressModal()">&times;</span>
+            <h3 id="addressModalTitle">Add New Address</h3>
+            <form id="addressForm" onsubmit="saveAddress(event)">
+                <div class="form-group">
+                    <label>Full Name <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="text" id="addressName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number <span style="color: var(--accent-gold);">*</span></label>
+                    <input type="tel" id="addressPhone" required placeholder="10 digits">
+                </div>
+                <div class="form-group">
+                    <label>Address Type <span style="color: var(--accent-gold);">*</span></label>
+                    <select id="addressType" required>
+                        <option value="">Select Type</option>
+                        <option value="Home">Home</option>
+                        <option value="Office">Office</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Street Address <span style="color: var(--accent-gold);">*</span></label>
+                    <textarea id="addressStreet" rows="2" required placeholder="Min 10 characters"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>City <span style="color: var(--accent-gold);">*</span></label>
+                        <input type="text" id="addressCity" required>
+                    </div>
+                    <div class="form-group">
+                        <label>State/Province <span style="color: var(--accent-gold);">*</span></label>
+                        <input type="text" id="addressState" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Postal Code <span style="color: var(--accent-gold);">*</span></label>
+                        <input type="text" id="addressPostalCode" required placeholder="Min 4 characters">
+                    </div>
+                    <div class="form-group">
+                        <label>Country <span style="color: var(--accent-gold);">*</span></label>
+                        <select id="addressCountry" required>
+                            <option value="">Select Country</option>
+                            <option value="India" selected>India</option>
+                            <option value="USA">United States</option>
+                            <option value="UK">United Kingdom</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="addressDefault">
+                        <span>Set as default address</span>
+                    </label>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Address</button>
+                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeAddressModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Track Order Modal -->
+    <div id="trackOrderModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="modal-close" onclick="closeTrackOrderModal()">&times;</span>
+            <div id="trackOrderContent"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
