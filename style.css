@@ -3994,3 +3994,63 @@ input:focus, textarea:focus, select:focus, button:focus {
   margin-top: 1rem;
   font-size: 0.95rem;
 }
+
+/* 🎯 759x1024 PX (0.74 ratio) ke liye PERFECT FIX */
+.product-detail .main-image,
+#productDetail .main-image {
+    height: 580px !important;
+    width: 430px !important;     /* 759/1024 = 0.74 ratio */
+    max-width: 100% !important;
+    background-size: cover !important;
+    background-position: center 15% !important;  /* Model face center me */
+    background-repeat: no-repeat !important;
+    border-radius: 16px !important;
+    margin: 0 auto !important;   /* Center align */
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .product-detail .main-image {
+        height: 480px !important;
+        width: 355px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-detail .main-image {
+        height: 420px !important;
+        width: 310px !important;
+    }
+}
+
+
+
+/* 🛒 GRID CARDS - FULL IMAGE VISIBLE (Home/Shop page) */
+.product-card .product-image {
+    height: 320px !important;
+    background-size: cover !important;
+    background-position: center 10% !important;  /* Model face visible */
+    background-repeat: no-repeat !important;
+}
+
+#trendingProducts .product-image,
+#shopProducts .product-image {
+    background-position: center 15% !important;  /* Perfect for 759x1024 */
+}
+
+/* Mobile grid */
+@media (max-width: 768px) {
+    .product-card .product-image {
+        height: 280px !important;
+    }
+}
+
+
+/* 👁️ QUICK VIEW MODAL - FULL IMAGE (Eye icon) */
+#quickViewModal .quick-view-image,
+.quick-view-image {
+    height: 420px !important;
+    width: 320px !important;
+    background-size: cover !important;
+    background-position
+}
