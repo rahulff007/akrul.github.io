@@ -4054,3 +4054,23 @@ input:focus, textarea:focus, select:focus, button:focus {
     background-size: cover !important;
     background-position
 }
+
+
+/* Ultra-small mobile (phones portrait) */
+@media (max-width: 480px) {
+  .container { padding: 0 1rem; }
+  .products-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .product-card .product-image { height: 250px !important; }
+  .section-title { font-size: 1.8rem; }
+  .nav-container { padding: 0 1rem; }
+  .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; }
+}
+
+/* Extra tablet stacking */
+@media (max-width: 900px) {
+  .shop-layout, .cart-layout, .checkout-layout, .account-layout,
+  .product-detail { grid-template-columns: 1fr; }
+  .filters-sidebar, .cart-summary { order: 2; margin-top: 2rem; }
+}
+
